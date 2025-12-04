@@ -16,19 +16,19 @@ questions = {
 
 while ques_num <= len(questions)-1:
      q1 = input(list(questions.keys())[ques_num])
-     if q1 == "":
+     if q1 == "": # if user enters nothing, skip question
           ques_num += 1
           continue
-     if list(questions.keys())[ques_num][0:3] == "0 /":
+     if list(questions.keys())[ques_num][0:3] == "0 /": # special case for 0 divided by a number
           q1.lower() == "null" or q1.lower() == "undefined" or q1.lower() == "infinity"
           score += 1
           continue
      try:
-          q1 = int(q1)
+          q1 = int(q1) # convert input to integer
           if q1 == list(questions.values())[ques_num]:
                score += 1
      except:
-          print("Please enter a valid number.")
+          print("Please enter a valid number.") # if user enters invalid input
           pass
      ques_num += 1
 
