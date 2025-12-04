@@ -1,3 +1,5 @@
+# simple quiz
+
 score = 0
 ques_num = 0
 questions = {
