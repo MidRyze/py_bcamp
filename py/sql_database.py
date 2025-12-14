@@ -101,7 +101,8 @@ class DatabaseManager:
             print(f"Error deleting user: {e}")
             return False
         
-    def update(self, user_id):
+        '''    
+        def update(self, user_id):
         print("test")
         try: ############ TRYING TO UPDATE VIA MISSING FIELD
             if ObjectId.is_valid(user_id):
@@ -109,6 +110,7 @@ class DatabaseManager:
             # else:
             #     user_object_id = user_id
             self.
+            #'''
 
     def close_connection(self): # Close the MongoDB connection
         self.client.close()
