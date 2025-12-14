@@ -20,9 +20,10 @@ class DatabaseManager:
         self.users_collection.create_index("email", unique=True)    # Create unique index on email for users
         self.posts_collection.create_index("user id")               # Create index on user_id for posts for better query performance
 
-    def create_user(self, name, email, age): # Create a new user
+    def create_user(self, ic, name, email, age): # Create a new user
         try:
             user_doc = {
+            "IC": ic,
             "name": name,
             "email": email,
             "age": age,
@@ -53,7 +54,7 @@ class DatabaseManager:
             print(f"Error creating post: {e}")
             return None
         
-    def get_all_users(self):                        #Get all users
+    def get_all_users(self):                        # Get all users
         try:
             users = list(self.users_collection.find())
             for user in users:                      # Convert ObjectId to string for display
@@ -63,7 +64,7 @@ class DatabaseManager:
             print(f"Error fetching users: {e}")
             return []
 
-    def get_user_posts(self, user_id):              #Get posts by user
+    def get_user_posts(self, user_id):              # Get posts by user
         try:                                        # Convert string user_id to ObjectId if it's a valid ObjectId
             if ObjectId.is_valid(user_id):
                 user_object_id = ObjectId(user_id)
@@ -100,12 +101,21 @@ class DatabaseManager:
             print(f"Error deleting user: {e}")
             return False
         
+    def update(self, user_id):
+        print("test")
+        try: ############ TRYING TO UPDATE VIA MISSING FIELD
+            if ObjectId.is_valid(user_id):
+                user_object_id = ObjectId(user_id)
+            # else:
+            #     user_object_id = user_id
+            self.
+
     def close_connection(self): # Close the MongoDB connection
         self.client.close()
 
 def display_menu(): # Displays the menu in terminal
     print("\n" + "="*40)
-    print("    DATABASE MANAGER")
+    print("       DATABASE MANAGER")
     print("="*40)
     print("1 CREATE USER")
     print("2 VIEW ALL USER")
@@ -130,11 +140,12 @@ def main(): #Main interactive CLI function
 
         if choice == '1':
             print("\n --- Create New User --- ")
-            name = input("Enter name: "). strip()
+            ic = input("Enter ic: ").strip()
+            name = input("Enter name: ").strip()
             email = input("Enter email: ").strip()
             try:
                 age = int(input("Enter age: ").strip())
-                user_id = db.create_user(name, email, age)
+                user_id = db.create_user(ic, name, email, age)
                 if user_id:
                     print(f"/ User created successfully! ID: {user_id}")
                 else:
