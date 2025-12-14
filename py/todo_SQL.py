@@ -166,9 +166,9 @@ def num_check(*args):
             return None
     return inpt
 
-def clear_terminal(x = 1):
+def clear_terminal(x):
     if x == 0:
-        pass
+        return None
         # return
     if os.name == 'nt':
         os.system('cls')  # Windows command to clear the terminal
@@ -217,8 +217,11 @@ def main():
                 users = db.get_all_users()
                 if users:
                     for u in users:
-                        print(f"Obj_ID: {u[4]} | E-mail: {u[0]} | Name: {u[1]} | Age: {u[3]} | Time created: {u[5]}")
-
+                        print(f"Obj_ID: {u[4]}"
+                              f"| E-mail: {u[0]}"
+                              f"| Name: {u[1]}"
+                              f"| Age: {u[3]}"
+                              f"| Time created: {u[5]}")
                 else:
                     print("No users found.")
 
