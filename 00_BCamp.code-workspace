@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../test"
+		}
+	],
+	"settings": {
+		"debug.terminal.clearBeforeReusing": true
+	}
+}
