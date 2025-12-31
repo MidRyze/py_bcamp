@@ -6,8 +6,8 @@ from datetime import datetime
 
 # Configure the page
 st.set_page_config(
-    page_title="PROJECT to-do",
-    page_icon="🗃️",
+    page_title="💾 MongoDB Database Manager",
+    page_icon="💾",
     layout="wide",
     initial_sidebar_state="expanded")
 
@@ -21,7 +21,7 @@ def check_api_connection(): # Check if the FastAPI server is running
         return response.status_code == 200
     except:
         return False
-def create_user(name, email, age): # Create a new user via API
+def create_user(name, email, age): # Create a new user via API"""
     try:
         response = requests.post(
             f"{API_BASE_URL}/users/",
@@ -41,7 +41,7 @@ def get_all_users(): # Get all users via API
     except Exception as e:
         return [], False
 
-def get_user_todo(user_id): # Get posts for a specific user
+def get_user_posts(user_id): # Get posts for a specific user"""
     try:
         response = requests.get(f"{API_BASE_URL}/users/{user_id}/posts")
         if response.status_code == 200:
@@ -50,7 +50,7 @@ def get_user_todo(user_id): # Get posts for a specific user
     except Exception as e:
         return [], False
 
-def create_post(user_id, title, content): # Create a new post via API
+def create_post(user_id, title, content): # Create a new post via API"""
     try:
         response = requests.post(
             f"{API_BASE_URL}/posts/",
@@ -60,7 +60,7 @@ def create_post(user_id, title, content): # Create a new post via API
     except Exception as e:
         return {"error": str(e)}, False
 
-def get_all_posts(): # Get all posts via API
+def get_all_posts(): # Get all posts via API"""
     try:
         response = requests.get(f"{API_BASE_URL}/posts/")
         if response.status_code == 200:
@@ -69,21 +69,21 @@ def get_all_posts(): # Get all posts via API
     except Exception as e:
         return [], False
 
-def delete_user(user_id): # Delete a user via API
+def delete_user(user_id): # Delete a user via API"""
     try:
         response = requests.delete(f"{API_BASE_URL}/users/{user_id}")
         return response. json(), response.status_code == 200
     except Exception as e:
         return {"error": str(e)}, False
 
-def delete_post(post_id): # Delete a post via API
+def delete_post(post_id): # Delete a post via API"""
     try:
         response = requests.delete(f"{API_BASE_URL}/posts/{post_id}")
         return response. json(), response.status_code == 200
     except Exception as e:
         return {"error": str(e)}, False
 
-def update_user(user_id, name, email, age): # Update a user via API
+def update_user(user_id, name, email, age): # Update a user via API"""
     try:
         response = requests.put(
             f"{API_BASE_URL}/users/{user_id}",
@@ -94,7 +94,7 @@ def update_user(user_id, name, email, age): # Update a user via API
         return {"error": str(e)}, False
 
 def main():
-    st.title("Making to-do-lists Great Again")
+    st.title("💾 MongoDB Database Manager")
     st.markdown("----")
 
     # Check API connection
@@ -106,21 +106,21 @@ def main():
     st.success ("Connected to FastAPI server")
 
     # Sidebar for navigation
-    st.sidebar.title("🧭 Navbar")
+    st.sidebar.title("Navigation")
     page = st.sidebar.selectbox(
-        "Choose page",
-        ["👤 Users", "🗒️ Tasks", "🖥️ Dashboard"]
+        "Choose a page",
+        ["Users", "Posts", "Dashboard"]
     )
 
-    if page == "👤 Users":
+    if page == "2 Users":
         users_page()
-    elif page == "🗒️ Tasks":
+    elif page == "Posts":
         posts_page()
-    elif page == "🖥️ Dashboard":
+    elif page == "Dashboard":
         dashboard_page()
 
 def users_page():
-    st.header("! User Profile")
+    st.header("! User Management")
 
     # Create tabs for different user operations
     tab1, tab2, tab3 = st.tabs(["Create User", "View Users", "Manage Users"])
@@ -299,7 +299,7 @@ def dashboard_page():
 
     # Get data for dashboard
     users, users_success = get_all_users()
-    posts, posts_success = get_user_todo()
+    posts, posts_success = get_all_posts()
 
     if users_success and posts_success:
         # Metrics
@@ -349,5 +349,5 @@ def dashboard_page():
     else:
         st.error("X Failed to load dashboard data")
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

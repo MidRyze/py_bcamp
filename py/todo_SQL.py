@@ -80,6 +80,8 @@ class db_manager:
             next_number = (result[0] or 0) + 1
             if title == None:
                 title = f"TASK_{next_number}"
+            if description == None:
+                description = f"N/A"
             cursor.execute('''
                 INSERT INTO todo (email, task_number, title, description)
                 VALUES (?, ?, ?, ?)
@@ -118,6 +120,16 @@ class db_manager:
                 ''', (status, email, task_number))
             return cursor.rowcount > 0
         
+    def update_user_task(self, email, task_number, title, status, description): # updates task status
+        with sqlite3.connect(self.db_name) as connect:
+            cursor = connect.cursor()
+            cursor.execute('''
+                UPDATE todo
+                SET title = ?, status = ?, description = ?
+                WHERE email = ? AND task_number = ?
+                ''', (title, status, description, email, task_number))
+            return cursor.rowcount > 0
+        
     def delete_task(self, email, task_number): # deletes a task
         with sqlite3.connect(self.db_name) as connect:
             cursor = connect.cursor()
@@ -133,14 +145,16 @@ class db_manager:
             cursor.execute('''
                 DELETE FROM todo
                 WHERE email = ?
-                ''', (email))
+                ''', (email,))
+            connect.commit()
             return cursor.rowcount > 0
 
     def delete_user(self, email): # deletes a user
         with sqlite3.connect(self.db_name) as connect:
             cursor = connect.cursor()
-            cursor.execute("DELETE FROM users WHERE email = ?",(email))
-            cursor.execute("DELETE FROM todo WHERE email = ?",(email))
+            cursor.execute("DELETE FROM users WHERE email = ?",(email,))
+            cursor.execute("DELETE FROM todo WHERE email = ?",(email,))
+            connect.commit()
             return cursor.rowcount > 0
 
     def delete_user_by_oid(self, oid): # deletes a user (ADMIN)
@@ -323,6 +337,7 @@ def main():
                               f"| task_number: {u[1]}"
                               f"| title: {u[2]}"
                               f"| status: {u[3]}"
+                              f"| description: {u[4]}"
                               f"| Time created: {u[5]}")
                 else:
                     print("No tasks found.")
